@@ -7,20 +7,25 @@ cards.forEach((card) => {
 var isFlipped = false;
 var firstCard;
 var seecondCard;
+var isTimeout = false;
 
 function flip(){
 	//console.log(this);
-	this.classList.add("flip");
-	if(!isFlipped)
+	if(!isTimeout)
 	{
-		isFlipped=true;
-		firstCard=this;
+		this.classList.add("flip");
+		if(!isFlipped)
+		{
+			isFlipped=true;
+			firstCard=this;
+		}
+		else
+		{
+			secondCard=this;
+			checkIt();
+		}
 	}
-	else
-	{
-		secondCard=this;
-		checkIt();
-	}
+	
 }
 
 function checkIt(){
@@ -41,10 +46,13 @@ function success(){
 }
 
 function fail(){
+	isTimeout=true;
 	setTimeout(() => {
 		firstCard.classList.remove("flip");
 		secondCard.classList.remove("flip");
-	},1000);
+		isTimeout=false;
+		reset();
+	},600);
 }
 
 function reset(){
